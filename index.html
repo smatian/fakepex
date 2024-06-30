@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        #question-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="question-container">
+        <form id="question-form">
+            <div>
+                <p>Question 1: What is the capital of France?</p>
+                <img src="https://example.com/image.png" alt="Relevant image" style="display: none;">
+                <input type="radio" name="capital" value="Paris" id="paris"><label for="paris">Paris</label><br>
+                <input type="radio" name="capital" value="Madrid" id="madrid"><label for="madrid">Madrid</label><br>
+                <input type="radio" name="capital" value="Berlin" id="berlin"><label for="berlin">Berlin</label><br>
+            </div>
+            <button type="button" onclick="submitAnswer()">Submit</button>
+        </form>
+        <button id="next-question" style="display: none;" onclick="resetPage()">Next Question</button>
+    </div>
+    <script >
+        function submitAnswer() {
+            const correctAnswer = "Paris";
+            const selectedAnswer = document.querySelector('input[name="capital"]:checked');
+        
+            if (selectedAnswer) {
+                if (selectedAnswer.value === correctAnswer) {
+                    decideNextStep(true);
+                } else {
+                    decideNextStep(false);
+                }
+            } else {
+                alert("Please select an answer.");
+            }
+        }
+        
+        function decideNextStep(correct) {
+            if (Math.random() < 0.5) {
+                const nextButton = document.getElementById("next-question");
+                nextButton.style.display = 'block';
+                nextButton.textContent = correct ? "Correct - Next Question" : "Incorrect - Next Question";
+            } else {
+                if (correct) {
+                    alert("Correct! No more questions.");
+                } else {
+                    alert("Incorrect! No more questions.");
+                }
+                resetPage();
+            }
+        }
+        
+        function resetPage() {
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => {
+                input.checked = false;
+            });
+            const nextButton = document.getElementById("next-question");
+            nextButton.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
